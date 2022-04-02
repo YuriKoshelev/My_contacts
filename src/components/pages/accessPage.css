@@ -1,0 +1,35 @@
+/* form access */
+.access {
+    margin: 0 auto;
+    margin-top: 20ch;
+    height: 230px;
+    width: 300px;
+    box-shadow: 15px 15px 15px 15px rgba(0,0,0, .15);
+}
+
+.form_access {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 88%;
+    justify-content: space-evenly;
+}
+
+.access input {
+    width: 80%;
+    height: 25px;
+    padding-left: 5px;
+}
+
+.access_buttons {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+}
+
+.access button {
+    width: 60px;
+    height: 25px;
+    cursor: pointer;
+}

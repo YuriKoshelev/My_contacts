@@ -1,0 +1,54 @@
+{
+    "access": [
+        {
+            "id": "user1",
+            "name": "user1",
+            "password": "password1"
+        },
+        {
+            "id": "user2",
+            "name": "user2",
+            "password": "password2"
+        }   
+    ],
+
+    "clients": [
+        {
+            "user1": [
+                {
+                    "id": 1,
+                    "name": "Michael Smith",
+                    "phone": "+16102572514",
+                    "email": "Michael1982@gmail.com"
+                },
+                {
+                    "id": 2,
+                    "name": "Jacob Davis",
+                    "phone": "+12083332141",
+                    "email": "JacobDavis@yahoo.com"
+                },
+                {
+                    "id": 3,
+                    "name": "Liam Jones",
+                    "phone": "+14045476544",
+                    "email": "LiamJones@mail.com"
+                }
+            ],
+            "user2": [
+                {
+                    "id": 1,
+                    "name": "Mason Williams",
+                    "phone": "+12527454111",
+                    "email": "WilliamsMason@byke.com"
+                },
+                {
+                    "id": 2,
+                    "name": "Harry Johnson",
+                    "phone": "+12489854577",
+                    "email": "JohnsonHarry@gmail.com"
+                }
+            ]
+        }
+    ]
+
+}

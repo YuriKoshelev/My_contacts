@@ -1,0 +1,33 @@
+.promo {
+    color: white;
+    margin: 0 auto;
+    width: 1000px;
+    background-color: #3d5a80;
+    min-height: 150px;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 15px 15px 30px rgba(0,0,0, .15);
+}
+
+h1 {
+    text-align: center;
+    font-size: 50px;
+    line-height: 0;
+}
+
+.user_name {
+    text-align: right;
+}
+
+.btn {
+    display: block;
+    width: 70px;
+    margin-left: 800px;
+    margin: 0 auto;
+    margin-right: 0;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: none;
+    color: rgb(95, 10, 10);
+    cursor: pointer;
+}
