@@ -1,12 +1,11 @@
 import {useCallback} from 'react';
 
-
 export const useHttp = () => {
     //const [process, setProcess] = useState<string>('waiting');
     
     const request= useCallback(async (url: string, 
                                       method: string = 'GET', 
-                                      body: BodyInit |  null = null, 
+                                      body: BodyInit | null = null, 
                                       headers: {} = {'Content-Type': 'application/json'}) => {
 
         try {
@@ -16,7 +15,7 @@ export const useHttp = () => {
                 throw new Error(`Could not fetch ${url}, status: ${response.status}`);  
             }
 
-            const data: JSON = await response.json()
+            const data = await response.json()
 
             return data
 

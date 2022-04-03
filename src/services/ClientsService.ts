@@ -1,4 +1,5 @@
 import {useHttp} from '../hooks/http.hooks'
+import {InewClientRequest} from '../interfaces'
 
 const useClientsService = () => {
     const request = useHttp()
@@ -6,13 +7,31 @@ const useClientsService = () => {
     const _apiBase: string = 'http://localhost:3001'
 
     const checkAccess = async (user: string, password: string) => {
-        console.log(55555)
+
         const res = await request(`${_apiBase}/access?id=${user}&password=${password}`);
-        console.log(res)
+        return res
+    }
+
+    const getClients = async (user: string) => {
+        
+        const res = await request(`${_apiBase}/clients?user=${user}`);
+        return res
+    }
+
+    const addClient = async (body: BodyInit) => {
+        
+        const res = await request(`${_apiBase}/clients`, "POST", body);
+        return res
+    }
+
+    const deleteClient = async (id: string) => {
+        
+        const res = await request(`${_apiBase}/clients/${id}`, "DELETE");
+        return res
     }
 
 
-    return {checkAccess}
+    return {checkAccess, getClients, addClient, deleteClient}
 }
 
 export default useClientsService;
