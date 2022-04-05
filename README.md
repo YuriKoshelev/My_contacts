@@ -6,11 +6,11 @@
 
 ## - Run "npm start"
 
-Login: user1
-Password: password1
+Login: "user1"   
+Password: "password1"
 
 ### or 
 
-Login: user2
-Password: password2
+Login: "user2"   
+Password: "password2"
 
