@@ -2,10 +2,15 @@
 
 ## - Download the repository
 
-## - Run `npm i`
+## - Run "npm i"
 
-## - Run `npm start`
+## - Run "npm start"
 
+Login: user1
+Password: password1
 
+### or 
 
+Login: user2
+Password: password2
 
