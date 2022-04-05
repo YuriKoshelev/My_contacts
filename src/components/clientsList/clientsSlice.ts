@@ -6,6 +6,8 @@ interface Istate {
     loading: boolean
     user: string
     access: boolean
+    editId: number
+    filter: string
 }
 
 const initialState: Istate = {
@@ -13,7 +15,9 @@ const initialState: Istate = {
     errorLoading: false,
     loading: false,
     user: '',
-    access: false
+    access: false,
+    editId: -1,
+    filter: ''
 }
 
 const clientsSlice = createSlice({
@@ -29,6 +33,9 @@ const clientsSlice = createSlice({
         clientDelete: (state, action) => {
             state.clients = action.payload
         },
+        loadClientEdit: (state, action) => {
+            state.clients = action.payload
+        },
         accessUpdate: (state, action) => {
             state.access = action.payload
         },
@@ -40,6 +47,12 @@ const clientsSlice = createSlice({
         },
         userUpdate: (state, action) => {
             state.user = action.payload
+        },
+        editClientUpdate: (state, action) => {
+            state.editId = action.payload
+        },
+        filterUpdate: (state, action) => {
+            state.filter = action.payload
         }
     }
 });
@@ -55,5 +68,8 @@ export const {
     accessUpdate,
     loadingUpdate,
     userUpdate,
-    errorLoadingUpdate
+    errorLoadingUpdate,
+    editClientUpdate,
+    loadClientEdit,
+    filterUpdate
 } = actions;

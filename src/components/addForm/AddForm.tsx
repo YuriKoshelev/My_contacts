@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import useClientsService from '../../services/ClientsService';
 import {clientsUpdate} from "../clientsList/clientsSlice"
 import { v4 as uuidv4 } from 'uuid';
+import {Formik, Form, Field, ErrorMessage as FormikErrorMessage} from 'formik';
+import * as Yup from 'yup';
 import { Istate } from '../../interfaces'
 import "./addForm.css"
 
@@ -29,8 +31,13 @@ const AddForm: React.FC = () => {
         }
     
         addClient(JSON.stringify(newClient))
-            .then((res)=> {
+            .then(() => {
                 dispatch(clientsUpdate([newClient]))
+            })
+            .then(() => {
+                setClientName('')
+                setClientPhone('')
+                setClientEmail('')
             })
     }
 

@@ -12,6 +12,8 @@ const AccessPage: React.FC = () => {
   
   const [userName, setUserName] = useState<string>('')
   const [userPassword, setUserPassword] = useState<string>('')
+  const [mistake, setMistake] = useState<boolean>(false)
+
   const history = useHistory()
   const {checkAccess} = useClientsService();
 
@@ -19,12 +21,14 @@ const AccessPage: React.FC = () => {
 
   const getAccess = (): void => {
     checkAccess(userName, userPassword)
-      .then((res)=> {
-          
+      .then((res)=> {     
         if (res.length > 0) {
           dispatch(userUpdate(userName))
           dispatch(accessUpdate(true)) 
           history.push('/main')
+        } 
+        else {
+          setMistake(true)
         }
       })
   }
@@ -38,6 +42,7 @@ const AccessPage: React.FC = () => {
     e.preventDefault()
     setUserName("")
     setUserPassword("")
+    setMistake(false)
   }
   
   const onKeyPress = (e: React.KeyboardEvent) => {
@@ -49,10 +54,17 @@ const AccessPage: React.FC = () => {
 
   const onChangeName = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setUserName(e.target.value)
+    setMistake(false)
   }
 
   const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setUserPassword(e.target.value)
+    setMistake(false)
+  }
+
+  let mistakeHTML = <></>
+  if (mistake) {
+    mistakeHTML = <div className='mistake'>Login or password entered incorrectly</div>
   }
 
   return (
@@ -68,9 +80,10 @@ const AccessPage: React.FC = () => {
             <input name="password"
                    value={userPassword} 
                    required placeholder="Password" 
-                   type="text"
+                   type="password"
                    onChange={onChangePassword}
                    onKeyPress={onKeyPress}/>
+            {mistakeHTML}       
             <div className="access_buttons">
                 <button className="access_button_reset"
                         onClick={onReset}>Reset</button>

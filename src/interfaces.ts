@@ -13,6 +13,8 @@ export interface Istate {
         loading: boolean
         user: string
         access: boolean
+        editId: number
+        filter: string
     }
 }
 

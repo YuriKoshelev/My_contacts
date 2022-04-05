@@ -6,6 +6,7 @@ import AppHeader from '../appHeader/AppHeader';
 import Search from '../search/search';
 import ClientsList from '../clientsList/ClientsList';
 import AddForm from '../addForm/AddForm';
+import EditClient from '../editClient/EditClient'
 
 import { Istate } from '../../interfaces'
 
@@ -26,6 +27,7 @@ const MainPage: React.FC = () => {
                     <ClientsList/>
                     <AddForm/>
                 </div>
+                <EditClient/>
             </>
         )
 }

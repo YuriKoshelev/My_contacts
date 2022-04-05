@@ -24,6 +24,12 @@ const useClientsService = () => {
         return res
     }
 
+    const editClient = async (body: BodyInit, id: string) => {
+        
+        const res = await request(`${_apiBase}/clients/${id}`, "PUT", body);
+        return res
+    }
+
     const deleteClient = async (id: string) => {
         
         const res = await request(`${_apiBase}/clients/${id}`, "DELETE");
@@ -31,7 +37,7 @@ const useClientsService = () => {
     }
 
 
-    return {checkAccess, getClients, addClient, deleteClient}
+    return {checkAccess, getClients, addClient, deleteClient, editClient}
 }
 
 export default useClientsService;

@@ -1,11 +1,12 @@
 import React, {useEffect, useCallback} from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import "./clientsList.css"
+import editWebp from '../../resources/edit.webp'
 import useClientsService from '../../services/ClientsService';
 
 import { Istate, IclientsList } from '../../interfaces'
 
-import {clientsUpdate, clientDelete} from "../clientsList/clientsSlice"
+import {clientsUpdate, clientDelete, editClientUpdate} from "../clientsList/clientsSlice"
 
 // interface IclientsElenent {
 //     id: string,
@@ -24,7 +25,7 @@ import {clientsUpdate, clientDelete} from "../clientsList/clientsSlice"
 const ClientsList: React.FC = () => {
 
     const {getClients, deleteClient} = useClientsService();
-    const {clients, user} = useSelector((state: Istate) => state.clients)
+    const {clients, user, filter} = useSelector((state: Istate) => state.clients)
     const dispatch = useDispatch()
 
     useEffect((): void => {
@@ -50,22 +51,33 @@ const ClientsList: React.FC = () => {
             })
     } 
 
+    const editClient = (index: number): void => {
+        dispatch(editClientUpdate(index))
+    }
+
+    const newClients = clients.filter((item) => {
+        const len = filter.length
+        return item.name.toLowerCase().slice(0, len) === filter.toLowerCase()
+        // return item.name.toLowerCase().indexOf(filter.toLowerCase())>-1
+    })
+
     return (
         <div className="clients_list">
             <ul>
                 <li>
                     { 
-                    clients.map((elem) => {
+                    newClients.map((elem, index) => {
                         return(
                             <li>
                                 <div className="client_wrapper">
                                     <div className="client">
-                                        <input name="name"
-                                               value={elem.name}
-                                               type="text" 
-                                               className="client_name"/>
+                                        <div className="client_name">{elem.name}</div>
                                         <div className="client_phone">{elem.phone}</div>
                                         <div className="client_email">{elem.email}</div>
+                                        <div className="client_btn_edit"
+                                             onClick={() => {editClient(index)}}>
+                                            <img src={editWebp} alt="edit"/>
+                                        </div>
                                         <div className="client_btn_delete"
                                              onClick={() => {onDeleteHeroe(elem.id)}}>
                                             <div className="client_line_one"></div>
@@ -80,7 +92,8 @@ const ClientsList: React.FC = () => {
                     }
                 </li>
             </ul>         
-        </div>
+        </div>        
+    
     )
 }
 

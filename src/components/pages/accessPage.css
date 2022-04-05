@@ -20,6 +20,7 @@
     width: 80%;
     height: 25px;
     padding-left: 5px;
+    outline: none;
 }
 
 .access_buttons {
@@ -32,4 +33,10 @@
     width: 60px;
     height: 25px;
     cursor: pointer;
+}
+
+.mistake {
+    font-size: 12px;
+    color: red;
+    font-weight: 700;
 }
