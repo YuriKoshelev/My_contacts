@@ -1,8 +1,11 @@
 import {useCallback} from 'react';
+import { useDispatch } from 'react-redux';
+import {errorLoadingUpdate} from "../components/clientsList/clientsSlice"
 
 export const useHttp = () => {
-    //const [process, setProcess] = useState<string>('waiting');
     
+    const dispatch = useDispatch()
+
     const request= useCallback(async (url: string, 
                                       method: string = 'GET', 
                                       body: BodyInit | null = null, 
@@ -20,7 +23,7 @@ export const useHttp = () => {
             return data
 
         } catch(e) {
-            //setProcess('error')
+            dispatch(errorLoadingUpdate(true))
             throw e
         }
 

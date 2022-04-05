@@ -1,6 +1,5 @@
 import React from "react";
-import { useSelector, useDispatch } from 'react-redux';
-import { Istate } from '../../interfaces'
+import { useDispatch } from 'react-redux';
 
 import {filterUpdate} from "../clientsList/clientsSlice"
 
@@ -8,7 +7,6 @@ import "./search.css"
 
 const Search: React.FunctionComponent = () => {
     
-    //const {clients, editId, user} = useSelector((state: Istate) => state.clients)
     const dispatch = useDispatch()
 
     const onChangeSearch = (e: React.ChangeEvent<HTMLInputElement>): void => {

@@ -1,7 +1,6 @@
 import React from "react"
 import { useSelector } from 'react-redux';
 import "./appHeader.css"
-import { useHistory } from "react-router-dom"
 import { useDispatch } from 'react-redux';
 
 import {userUpdate, accessUpdate, clientsClear} from "../clientsList/clientsSlice"
@@ -10,7 +9,7 @@ import { Istate } from '../../interfaces'
 
 
 const AppHeader: React.FC = () => {
-    const history = useHistory()
+    
     const {user} = useSelector((state: Istate) => state.clients)
     const dispatch = useDispatch()
     

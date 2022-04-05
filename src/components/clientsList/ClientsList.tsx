@@ -1,31 +1,18 @@
-import React, {useEffect, useCallback} from "react";
+import React, {useEffect} from "react";
 import { useDispatch, useSelector } from 'react-redux';
+import ErrorMessage from "../pages/404";
 import "./clientsList.css"
 import editWebp from '../../resources/edit.webp'
 import useClientsService from '../../services/ClientsService';
 
-import { Istate, IclientsList } from '../../interfaces'
+import { Istate } from '../../interfaces'
 
-import {clientsUpdate, clientDelete, editClientUpdate} from "../clientsList/clientsSlice"
-
-// interface IclientsElenent {
-//     id: string,
-//     user: string,
-//     name: string,
-//     phone: string,
-//     email: string 
-// }
-
-// interface IclientsElenent {
-//     value: string,
-//     index: number,
-//     array: string[]
-// }
+import {clientsUpdate, clientDelete, editClientUpdate, errorLoadingUpdate} from "../clientsList/clientsSlice"
 
 const ClientsList: React.FC = () => {
 
     const {getClients, deleteClient} = useClientsService();
-    const {clients, user, filter} = useSelector((state: Istate) => state.clients)
+    const {clients, user, filter, errorLoading} = useSelector((state: Istate) => state.clients)
     const dispatch = useDispatch()
 
     useEffect((): void => {
@@ -34,16 +21,18 @@ const ClientsList: React.FC = () => {
                 .then((res)=> {
                     if (res.length > 0) {
                     dispatch(clientsUpdate(res))
-                    // dispatch(accessUpdate(true)) 
-                    // history.push('/main')
                     }
                 })
+                .catch(() => {
+                    dispatch(errorLoadingUpdate(true))
+                 }
+                )
         }
     }, [])
 
     const onDeleteHeroe = (id: string) => {
         deleteClient(id)
-            .then((res)=> {
+            .then(()=> {
                 const newClients = clients.filter((item) => {
                     return item.id !== id 
                 })
@@ -58,8 +47,11 @@ const ClientsList: React.FC = () => {
     const newClients = clients.filter((item) => {
         const len = filter.length
         return item.name.toLowerCase().slice(0, len) === filter.toLowerCase()
-        // return item.name.toLowerCase().indexOf(filter.toLowerCase())>-1
     })
+
+    if (errorLoading) return (<ErrorMessage/>)
+
+    if (newClients.length === 0) return(<div className="noClients">No clients</div>) 
 
     return (
         <div className="clients_list">
@@ -72,7 +64,10 @@ const ClientsList: React.FC = () => {
                                 <div className="client_wrapper">
                                     <div className="client">
                                         <div className="client_name">{elem.name}</div>
-                                        <div className="client_phone">{elem.phone}</div>
+                                        <div className="client_phone">{
+                                        elem.phone.slice(0, 1) + '(' + elem.phone.slice(1, 4) + ')' + 
+                                        elem.phone.slice(4)
+                                        }</div>
                                         <div className="client_email">{elem.email}</div>
                                         <div className="client_btn_edit"
                                              onClick={() => {editClient(index)}}>

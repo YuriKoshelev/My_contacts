@@ -12,14 +12,21 @@
 .form_add input {
     height: 20px;
     width: 70%;
-    margin-bottom: 10px;
+    margin-top: 10px;
+    outline: none;
 }
 
 .button_submit {
+    margin-top: 10px;
     width: 50%;
     height: 25px;
     font-size: 15px;
     text-align: center;
     margin-bottom: 15px;
     cursor: pointer;
+}
+
+.form_error {
+    font-size: 11px;
+    color: red;
 }

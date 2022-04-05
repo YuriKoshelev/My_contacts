@@ -1,5 +1,4 @@
 import {useHttp} from '../hooks/http.hooks'
-import {InewClientRequest} from '../interfaces'
 
 const useClientsService = () => {
     const request = useHttp()

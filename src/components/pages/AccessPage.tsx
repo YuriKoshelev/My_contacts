@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import ErrorMessage from "./404";
 import { useHistory } from 'react-router-dom';
 
 import useClientsService from '../../services/ClientsService';
 
-import './accessPage.css';
+import { Istate } from '../../interfaces'
 
-import {userUpdate, accessUpdate} from "../clientsList/clientsSlice"
+import {userUpdate, accessUpdate, errorLoadingUpdate} from "../clientsList/clientsSlice"
+
+import './accessPage.css';
 
 const AccessPage: React.FC = () => {
   
@@ -16,14 +19,19 @@ const AccessPage: React.FC = () => {
 
   const history = useHistory()
   const {checkAccess} = useClientsService();
+  const {errorLoading} = useSelector((state: Istate) => state.clients)
 
   const dispatch = useDispatch()
 
+  useEffect(() => {
+    dispatch(errorLoadingUpdate(false))
+  }, [])
+
   const getAccess = (): void => {
-    checkAccess(userName, userPassword)
+    checkAccess(userName.toLowerCase(), userPassword)
       .then((res)=> {     
         if (res.length > 0) {
-          dispatch(userUpdate(userName))
+          dispatch(userUpdate(userName.toLowerCase()))
           dispatch(accessUpdate(true)) 
           history.push('/main')
         } 
@@ -61,6 +69,8 @@ const AccessPage: React.FC = () => {
     setUserPassword(e.target.value)
     setMistake(false)
   }
+
+  if (errorLoading) return (<ErrorMessage/>)
 
   let mistakeHTML = <></>
   if (mistake) {

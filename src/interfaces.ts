@@ -17,11 +17,3 @@ export interface Istate {
         filter: string
     }
 }
-
-export interface InewClientRequest {
-    id: string,
-    user: string,
-    name: string,
-    phone: string,
-    email: string
-}
