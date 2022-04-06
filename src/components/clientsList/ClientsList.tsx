@@ -61,7 +61,7 @@ const ClientsList: React.FC = () => {
                     newClients.map((elem, index) => {
                         return(
                             <li>
-                                <div className="client_wrapper">
+                                <div className="client_wrapper faded">
                                     <div className="client">
                                         <div className="client_name">{elem.name}</div>
                                         <div className="client_phone">{

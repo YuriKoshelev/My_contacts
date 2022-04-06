@@ -94,3 +94,17 @@
     font-size: 20px;
     font-weight: 700;
 }
+
+.faded{
+    animation-name: faded;
+    animation-duration: 1s;
+  }
+  
+  @keyframes faded{
+      from{
+          opacity: 0;
+      }
+      to{
+          opacity: 1;
+      }
+  }

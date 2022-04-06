@@ -33,7 +33,7 @@ const AddForm: React.FC = () => {
             email: clientEmail
         }
     
-        if (clientName.length > 3 && clientPhone.length > 10 
+        if (clientName.length > 2 && clientPhone.length > 10 
                                   && /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(clientEmail)) {
 
             addClient(JSON.stringify(newClient))

@@ -30,7 +30,7 @@ const EditClient: React.FC = () => {
     const onSave = (e: React.MouseEvent<HTMLButtonElement>): void => {
         e.preventDefault()
         
-        if (name.length > 3 && phone.length > 10 
+        if (name.length > 2 && phone.length > 10 
             && /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email)) {
             
             let updateClient = {
