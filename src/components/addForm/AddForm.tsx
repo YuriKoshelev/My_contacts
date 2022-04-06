@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import useClientsService from '../../services/ClientsService';
 import {clientsUpdate} from "../clientsList/clientsSlice"
+import Spinner from '../spinner/Spinner';
 import { v4 as uuidv4 } from 'uuid';
 
 import { Istate } from '../../interfaces'
@@ -16,6 +17,9 @@ const AddForm: React.FC = () => {
     const [activName, setActivName] = useState<boolean>(false)
     const [activPhone, setActivPhone] = useState<boolean>(false)
     const [activEmail, setActivEmail] = useState<boolean>(false)
+
+    const [inputError, setInputError] = useState<boolean>(false)
+    const [loading, setLoading] = useState<boolean>(false)
 
     const {addClient} = useClientsService();
     const dispatch = useDispatch()
@@ -35,10 +39,14 @@ const AddForm: React.FC = () => {
     
         if (clientName.length > 2 && clientPhone.length > 10 
                                   && /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(clientEmail)) {
-
+            
+            setInputError(false)
+            setLoading(true)
+                                
             addClient(JSON.stringify(newClient))
                 .then(() => {
                     dispatch(clientsUpdate([newClient]))
+                    setLoading(false)
                 })
                 .then(() => {
                     setClientName('')
@@ -48,23 +56,29 @@ const AddForm: React.FC = () => {
                     setActivPhone(false)
                     setActivEmail(false)
                 })
+        } else {
+            setInputError(true)
         }
 
     }
 
+
     const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {  
         setClientName(e.target.value)
         setActivName(true)
+        setInputError(false)
     }
 
     const onChangePhone = (e: React.ChangeEvent<HTMLInputElement>): void => {
         setClientPhone(e.target.value)
+        setInputError(false)
         setActivPhone(true) 
     }
 
     const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>): void => {
         setClientEmail(e.target.value)
         setActivEmail(true)
+        setInputError(false)
     }
 
     
@@ -85,6 +99,12 @@ const AddForm: React.FC = () => {
             errorEmail = <div className="form_error">"Invalid format"</div>
         }
     }
+
+    let inputErrorHTML = <></>
+    if (inputError) inputErrorHTML = <div className="form_error">"Incorrect input"</div>
+
+    let loadingHTML = <></>
+    if (loading) loadingHTML = <Spinner/>
 
     return (
         <div className="add_client">
@@ -110,7 +130,9 @@ const AddForm: React.FC = () => {
                        type="email"
                        onChange={onChangeEmail}
                        />
-                {errorEmail} 
+                {errorEmail}
+                {inputErrorHTML}
+                {loadingHTML} 
                 <button className="button_submit"
                         onClick={onAddClient}>Add</button>
             </form>

@@ -1,6 +1,6 @@
 import {useCallback} from 'react';
 import { useDispatch } from 'react-redux';
-import {errorLoadingUpdate} from "../components/clientsList/clientsSlice"
+import {errorLoadingUpdate, loadingUpdate} from "../components/clientsList/clientsSlice"
 
 export const useHttp = () => {
     
@@ -12,6 +12,9 @@ export const useHttp = () => {
                                       headers: {} = {'Content-Type': 'application/json'}) => {
 
         try {
+            
+            dispatch(loadingUpdate(true))
+
             const response = await fetch(url, {method, body, headers})
            
             if (!response.ok) {
@@ -20,9 +23,12 @@ export const useHttp = () => {
 
             const data = await response.json()
 
+            dispatch(loadingUpdate(false))
+
             return data
 
         } catch(e) {
+            dispatch(loadingUpdate(false))
             dispatch(errorLoadingUpdate(true))
             throw e
         }

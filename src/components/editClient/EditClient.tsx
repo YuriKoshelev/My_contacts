@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react"
 import { useSelector, useDispatch } from 'react-redux';
-import useClientsService from '../../services/ClientsService';
+import useClientsService from '../../services/ClientsService'
+import ErrorMessage from "../pages/404";
+import Spinner from "../spinner/Spinner";
 import { Istate, IclientsList } from '../../interfaces'
 
 import {loadClientEdit, editClientUpdate} from "../clientsList/clientsSlice"
@@ -13,7 +15,9 @@ const EditClient: React.FC = () => {
     const [phone, setPhone] = useState<string>('')
     const [email, setEmail] = useState<string>('')
 
-    const {clients, editId, user} = useSelector((state: Istate) => state.clients)
+    const [inputError, setInputError] = useState<boolean>(false)
+
+    const {clients, editId, user, errorLoading, loading} = useSelector((state: Istate) => state.clients)
     const {editClient} = useClientsService();
     const dispatch = useDispatch()
 
@@ -33,6 +37,8 @@ const EditClient: React.FC = () => {
         if (name.length > 2 && phone.length > 10 
             && /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email)) {
             
+            setInputError(false)
+
             let updateClient = {
                 id: clients[editId].id,
                 user: user,
@@ -57,6 +63,8 @@ const EditClient: React.FC = () => {
                     console.log(err)
                 }   
                 )
+        } else {
+            setInputError(true)
         }
     }
 
@@ -67,14 +75,17 @@ const EditClient: React.FC = () => {
 
     const onChangeName = (e: React.ChangeEvent<HTMLInputElement>): void => {
         setName(e.target.value)
+        setInputError(false)
     }
 
     const onChangePhone = (e: React.ChangeEvent<HTMLInputElement>): void => {
         setPhone(e.target.value)
+        setInputError(false)
     }
 
     const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>): void => {
         setEmail(e.target.value)
+        setInputError(false)
     }
 
     let errorName = <></>
@@ -91,9 +102,25 @@ const EditClient: React.FC = () => {
         errorEmail = <div className="form_error">"Invalid format"</div>
     }
 
+    if (errorLoading) {
+        return(<div className="overlay">
+                <div className="modal">
+                    <ErrorMessage/>
+                    <button className="edit_button_cancel"
+                            onClick={onCancel}>Cancel</button>
+                </div>
+        </div>)
+    }
+
+    let loadingHTML = <></>
+    if (loading) loadingHTML = <Spinner/>
+
+    let inputErrorHTML = <></>
+    if (inputError) inputErrorHTML = <div className="form_error">"Incorrect input"</div>
+
     return(
         <div className="overlay">
-            <div className="modal" id="consultation">
+            <div className="modal">
                 <div className="modal__subtitle">Editing a client</div>
                 <form className="form_edit" action="#">                
                     <input name="name" 
@@ -113,7 +140,9 @@ const EditClient: React.FC = () => {
                            onChange={onChangeEmail}
                            required placeholder="E-mail" 
                            type="email"/>
-                    {errorEmail} 
+                    {errorEmail}
+                    {inputErrorHTML}
+                    {loadingHTML} 
                     <div className="edit_buttons">
                         <button className="edit_button_cancel"
                                 onClick={onCancel}>Cancel</button>

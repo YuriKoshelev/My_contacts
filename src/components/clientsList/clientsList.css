@@ -108,3 +108,8 @@
           opacity: 1;
       }
   }
+
+.clients_list .spiner {
+    width: 200px;
+    height: 200px;
+}

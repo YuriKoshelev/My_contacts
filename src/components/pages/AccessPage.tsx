@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ErrorMessage from "./404";
 import { useHistory } from 'react-router-dom';
+import Spinner from '../spinner/Spinner';
 
 import useClientsService from '../../services/ClientsService';
 
@@ -19,7 +20,7 @@ const AccessPage: React.FC = () => {
 
   const history = useHistory()
   const {checkAccess} = useClientsService();
-  const {errorLoading} = useSelector((state: Istate) => state.clients)
+  const {errorLoading, loading} = useSelector((state: Istate) => state.clients)
 
   const dispatch = useDispatch()
 
@@ -28,6 +29,7 @@ const AccessPage: React.FC = () => {
   }, [])
 
   const getAccess = (): void => {
+    setMistake(false)
     checkAccess(userName.toLowerCase(), userPassword)
       .then((res)=> {     
         if (res.length > 0) {
@@ -77,6 +79,9 @@ const AccessPage: React.FC = () => {
     mistakeHTML = <div className='mistake'>Login or password entered incorrectly</div>
   }
 
+  let loadingHTML = <></>
+  if (loading) loadingHTML = <Spinner/>
+
   return (
     <div className="access"> 
         <form className="form_access" action="#">                
@@ -94,6 +99,7 @@ const AccessPage: React.FC = () => {
                    onChange={onChangePassword}
                    onKeyPress={onKeyPress}/>
             {mistakeHTML}       
+            {loadingHTML}
             <div className="access_buttons">
                 <button className="access_button_reset"
                         onClick={onReset}>Reset</button>

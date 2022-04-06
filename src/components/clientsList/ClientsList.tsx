@@ -1,6 +1,7 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import ErrorMessage from "../pages/404";
+import Spinner from "../spinner/Spinner";
 import "./clientsList.css"
 import editWebp from '../../resources/edit.webp'
 import useClientsService from '../../services/ClientsService';
@@ -11,16 +12,20 @@ import {clientsUpdate, clientDelete, editClientUpdate, errorLoadingUpdate} from 
 
 const ClientsList: React.FC = () => {
 
+    const [loading, setLoading] = useState<boolean>(false)
+
     const {getClients, deleteClient} = useClientsService();
     const {clients, user, filter, errorLoading} = useSelector((state: Istate) => state.clients)
     const dispatch = useDispatch()
 
     useEffect((): void => {
         if (clients.length === 0) {
+            setLoading(true)
             getClients(user)
                 .then((res)=> {
                     if (res.length > 0) {
                     dispatch(clientsUpdate(res))
+                    setLoading(false)
                     }
                 })
                 .catch(() => {
@@ -50,6 +55,8 @@ const ClientsList: React.FC = () => {
     })
 
     if (errorLoading) return (<ErrorMessage/>)
+
+    if (loading) return (<div className="clients_list"><Spinner/></div>)
 
     if (newClients.length === 0) return(<div className="noClients">No clients</div>) 
 
