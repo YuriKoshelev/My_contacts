@@ -58,7 +58,7 @@ const ClientsList: React.FC = () => {
 
     if (loading) return (<div className="clients_list"><Spinner/></div>)
 
-    if (newClients.length === 0) return(<div className="noClients">No clients</div>) 
+    if (newClients.length === 0) return(<div className="noClients">No contacts</div>) 
 
     return (
         <div className="clients_list">

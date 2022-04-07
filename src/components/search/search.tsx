@@ -20,7 +20,7 @@ const Search: React.FunctionComponent = () => {
                 <input className="search_clients" 
                        onChange={onChangeSearch}
                        type="text" 
-                       placeholder='Find a client'/>
+                       placeholder='Find a contact'/>
             </div>
         </section>
     )

@@ -121,12 +121,12 @@ const EditClient: React.FC = () => {
     return(
         <div className="overlay">
             <div className="modal">
-                <div className="modal__subtitle">Editing a client</div>
+                <div className="modal__subtitle">Editing a contact</div>
                 <form className="form_edit" action="#">                
                     <input name="name" 
                            value={name}
                            onChange={onChangeName}
-                           required placeholder="Client's name" 
+                           required placeholder="Contact's name" 
                            type="text"/>
                     {errorName}
                     <input name="phone" 

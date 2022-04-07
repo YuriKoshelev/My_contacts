@@ -109,10 +109,10 @@ const AddForm: React.FC = () => {
     return (
         <div className="add_client">
             <form className="form_add" action="#">                
-                <div className="form_headline">Add a client</div>
+                <div className="form_headline">Add a contact</div>
                 <input name="name" 
                        value={clientName}
-                       required placeholder="Client's name" 
+                       required placeholder="Contact's name" 
                        type="text"
                        onChange={onChangeName}
                        />
