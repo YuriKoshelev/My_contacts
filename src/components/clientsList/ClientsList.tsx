@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useMemo} from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import ErrorMessage from "../pages/404";
 import Spinner from "../spinner/Spinner";
@@ -67,7 +67,7 @@ const ClientsList: React.FC = () => {
                     { 
                     newClients.map((elem, index) => {
                         return(
-                            <li>
+                            <li key={elem.id}>
                                 <div className="client_wrapper faded">
                                     <div className="client">
                                         <div className="client_name">{elem.name}</div>
