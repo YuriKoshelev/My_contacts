@@ -1,4 +1,5 @@
 import {useHttp} from '../hooks/http.hooks'
+import { Iaccess, Iclients } from '../interfaces'
 
 const useClientsService = () => {
     const request = useHttp()
@@ -7,31 +8,31 @@ const useClientsService = () => {
 
     const checkAccess = async (user: string, password: string) => {
 
-        const res = await request(`${_apiBase}/access?id=${user}&password=${password}`);
+        const res: Iaccess[] = await request(`${_apiBase}/access?id=${user}&password=${password}`);
         return res
     }
 
     const getClients = async (user: string) => {
         
-        const res = await request(`${_apiBase}/clients?user=${user}`);
+        const res: Iclients[] = await request(`${_apiBase}/clients?user=${user}`);
         return res
     }
 
     const addClient = async (body: BodyInit) => {
         
-        const res = await request(`${_apiBase}/clients`, "POST", body);
+        const res: Iclients = await request(`${_apiBase}/clients`, "POST", body);
         return res
     }
 
     const editClient = async (body: BodyInit, id: string) => {
         
-        const res = await request(`${_apiBase}/clients/${id}`, "PUT", body);
+        const res: Iclients = await request(`${_apiBase}/clients/${id}`, "PUT", body);
         return res
     }
 
     const deleteClient = async (id: string) => {
         
-        const res = await request(`${_apiBase}/clients/${id}`, "DELETE");
+        const res: [] = await request(`${_apiBase}/clients/${id}`, "DELETE");
         return res
     }
 

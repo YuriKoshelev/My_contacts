@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { Iclients } from '../../interfaces'
 
 interface Istate {
-    clients: Array<string>
+    clients: Iclients[]
     errorLoading: boolean
     loading: boolean
     user: string
@@ -9,6 +10,26 @@ interface Istate {
     editId: number
     filter: string
 }
+
+interface IactionClients {
+    payload: Iclients[]
+    type: string
+} 
+
+interface IactionBoolean {
+    payload: boolean
+    type: string
+}
+
+interface IactionString {
+    payload: string
+    type: string
+} 
+
+interface IactionNumber {
+    payload: number
+    type: string
+} 
 
 const initialState: Istate = {
     clients: [],
@@ -24,34 +45,34 @@ const clientsSlice = createSlice({
     name: 'clients',
     initialState,
     reducers: {
-        clientsUpdate: (state, action) => {
+        clientsUpdate: (state, action: IactionClients) => {
             state.clients = [...state.clients, ...action.payload]
         },
         clientsClear: (state) => {
             state.clients = []
         },
-        clientDelete: (state, action) => {
+        clientDelete: (state, action: IactionClients) => {
             state.clients = action.payload
         },
-        loadClientEdit: (state, action) => {
+        loadClientEdit: (state, action: IactionClients) => {
             state.clients = action.payload
         },
-        accessUpdate: (state, action) => {
+        accessUpdate: (state, action: IactionBoolean) => {
             state.access = action.payload
         },
-        loadingUpdate: (state, action) => {
+        loadingUpdate: (state, action: IactionBoolean) => {
             state.loading = action.payload
         },
-        errorLoadingUpdate: (state, action) => {
+        errorLoadingUpdate: (state, action: IactionBoolean) => {
             state.errorLoading = action.payload
         },
-        userUpdate: (state, action) => {
+        userUpdate: (state, action: IactionString) => {
             state.user = action.payload
         },
-        editClientUpdate: (state, action) => {
+        editClientUpdate: (state, action: IactionNumber) => {
             state.editId = action.payload
         },
-        filterUpdate: (state, action) => {
+        filterUpdate: (state, action: IactionString) => {
             state.filter = action.payload
         }
     }

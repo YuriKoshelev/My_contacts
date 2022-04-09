@@ -1,4 +1,4 @@
-export interface IclientsList {
+export interface Iclients {
     id: string,
     user: string,
     name: string,
@@ -8,7 +8,7 @@ export interface IclientsList {
 
 export interface Istate {
     clients: {
-        clients: Array<IclientsList>
+        clients: Array<Iclients>
         errorLoading: boolean
         loading: boolean
         user: string
@@ -17,3 +17,10 @@ export interface Istate {
         filter: string
     }
 }
+
+export interface Iaccess {
+    id: string,
+    name: string,
+    password: string
+}
+

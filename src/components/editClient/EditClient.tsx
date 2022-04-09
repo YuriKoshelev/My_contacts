@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import useClientsService from '../../services/ClientsService'
 import ErrorMessage from "../pages/404";
 import Spinner from "../spinner/Spinner";
-import { Istate, IclientsList } from '../../interfaces'
+import { Istate, Iclients } from '../../interfaces'
 
 import {loadClientEdit, editClientUpdate} from "../clientsList/clientsSlice"
 
@@ -50,7 +50,7 @@ const EditClient: React.FC = () => {
             editClient(JSON.stringify(updateClient), clients[editId].id)
                 .then(() => {
                     
-                    let newClients: IclientsList[] = JSON.parse(JSON.stringify(clients))
+                    let newClients: Iclients[] = JSON.parse(JSON.stringify(clients))
                     
                     newClients[editId].name = name
                     newClients[editId].phone = phone
