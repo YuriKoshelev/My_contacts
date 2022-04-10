@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import ErrorMessage from "./404";
+import ErrorMessage from "./Page404";
 import { useHistory } from 'react-router-dom';
 import Spinner from '../spinner/Spinner';
 

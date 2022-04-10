@@ -1,6 +1,6 @@
-import React, {useEffect, useState, useMemo} from "react";
+import React, {useEffect, useState} from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import ErrorMessage from "../pages/404";
+import ErrorMessage from "../pages/Page404";
 import Spinner from "../spinner/Spinner";
 import "./clientsList.css"
 import editWebp from '../../resources/edit.webp'

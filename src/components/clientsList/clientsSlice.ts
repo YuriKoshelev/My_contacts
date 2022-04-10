@@ -93,4 +93,4 @@ export const {
     editClientUpdate,
     loadClientEdit,
     filterUpdate
-} = actions;
+} = actions; 

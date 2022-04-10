@@ -3,6 +3,7 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
 import AccessPage from '../pages/AccessPage';
 import MainPage from '../pages/MainPage';
+import Page404 from '../pages/Page404'
 
 const App: React.FC = () => {
   return (
@@ -14,6 +15,10 @@ const App: React.FC = () => {
             
             <Route exact path='/main'>
                 <MainPage/>
+            </Route>
+
+            <Route path='*'>
+                <Page404/>
             </Route>
         </Switch>
     </Router> 

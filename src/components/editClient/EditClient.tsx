@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { useSelector, useDispatch } from 'react-redux';
 import useClientsService from '../../services/ClientsService'
-import ErrorMessage from "../pages/404";
+import ErrorMessage from "../pages/Page404";
 import Spinner from "../spinner/Spinner";
 import { Istate, Iclients } from '../../interfaces'
 
