@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { useSelector, useDispatch } from 'react-redux';
 import useClientsService from '../../services/ClientsService'
+import { useAuth } from "../../hooks/auth.hooks";
 import ErrorMessage from "../pages/Page404";
 import Spinner from "../spinner/Spinner";
 import { Istate, Iclients } from '../../interfaces'
@@ -20,16 +21,19 @@ const EditClient: React.FC = () => {
     const {clients, editId, user, errorLoading, loading} = useSelector((state: Istate) => state.clients)
     const {editClient} = useClientsService();
     const dispatch = useDispatch()
+    const {logout} = useAuth()
 
     useEffect((): void => {
-        if (editId >= 0) {
-            setName(clients[editId].name)
-            setPhone(clients[editId].phone)
-            setEmail(clients[editId].email)
+        if (editId !== '') {
+            
+            const contact: Iclients[] = clients.filter((item) => item.id === editId)
+            setName(contact[0].name)
+            setPhone(contact[0].phone)
+            setEmail(contact[0].email)
         }
     }, [editId])
 
-    if (editId === -1) return(<></>) 
+    if (editId === '') return(<></>) 
 
     const onSave = (e: React.MouseEvent<HTMLButtonElement>): void => {
         e.preventDefault()
@@ -40,24 +44,33 @@ const EditClient: React.FC = () => {
             setInputError(false)
 
             let updateClient = {
-                id: clients[editId].id,
-                user: user,
                 name: name,
                 phone: phone,
-                email: email
+                email: email,
+                id: editId
             }
         
-            editClient(JSON.stringify(updateClient), clients[editId].id)
-                .then(() => {
+            editClient(JSON.stringify(updateClient), editId)
+                .then((res) => {
                     
-                    let newClients: Iclients[] = JSON.parse(JSON.stringify(clients))
+                    if (!res.error) {
+                        let newClients: Iclients[] = JSON.parse(JSON.stringify(clients))
                     
-                    newClients[editId].name = name
-                    newClients[editId].phone = phone
-                    newClients[editId].email = email
-                    dispatch(loadClientEdit(newClients))
-                    dispatch(editClientUpdate(-1))
+                        newClients.forEach((item) => {
+                            if (item.id === editId) {
+                                item.name = name
+                                item.phone = phone
+                                item.email = email
+                            }  
+                        })
+
+                        dispatch(loadClientEdit(newClients))
+                        dispatch(editClientUpdate(''))
+                    } else {
+                        logout()
                     }
+
+                }    
                 )
                 .catch((err) => {
                     console.log(err)
@@ -70,7 +83,7 @@ const EditClient: React.FC = () => {
 
     const onCancel = (e: React.MouseEvent<HTMLButtonElement>): void => {
         e.preventDefault()
-        dispatch(editClientUpdate(-1))
+        dispatch(editClientUpdate(''))
     }
 
     const onChangeName = (e: React.ChangeEvent<HTMLInputElement>): void => {

@@ -1,0 +1,5 @@
+{
+    "port": 5000,
+    "jwtSecret": "mak852456",
+    "mongoUri": "mongodb+srv://maklaren:mak852456@cluster0.biiws.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+}

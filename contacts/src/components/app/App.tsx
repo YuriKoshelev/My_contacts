@@ -2,6 +2,7 @@ import React from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
 import AccessPage from '../pages/AccessPage';
+import RegistrPage from '../pages/RegistrPage';
 import MainPage from '../pages/MainPage';
 import Page404 from '../pages/Page404'
 
@@ -13,6 +14,10 @@ const App: React.FC = () => {
                 <AccessPage/>
             </Route>
             
+            <Route exact path='/registr'>
+                <RegistrPage/>
+            </Route>
+
             <Route exact path='/main'>
                 <MainPage/>
             </Route>

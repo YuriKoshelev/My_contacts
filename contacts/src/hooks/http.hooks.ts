@@ -17,8 +17,8 @@ export const useHttp = () => {
             dispatch(loadingUpdate(true))
 
             const response = await fetch(url, {method, body, headers})
-           
-            if (!response.ok) {
+
+            if (!response.ok && response.status !== 400 && response.status !== 401) {
                 throw new Error(`Could not fetch ${url}, status: ${response.status}`);  
             }
 

@@ -17,6 +17,7 @@ const MainPage: React.FC = () => {
 
         if (access === false) {
             history.push('/')
+            return <></>
         }
 
         return (

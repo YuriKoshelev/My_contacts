@@ -7,8 +7,9 @@ interface Istate {
     loading: boolean
     user: string
     access: boolean
-    editId: number
+    editId: string
     filter: string
+    token: string
 }
 
 interface IactionClients {
@@ -26,19 +27,15 @@ interface IactionString {
     type: string
 } 
 
-interface IactionNumber {
-    payload: number
-    type: string
-} 
-
 const initialState: Istate = {
     clients: [],
     errorLoading: false,
     loading: false,
     user: '',
     access: false,
-    editId: -1,
-    filter: ''
+    editId: '',
+    filter: '',
+    token: ''
 }
 
 const clientsSlice = createSlice({
@@ -69,11 +66,14 @@ const clientsSlice = createSlice({
         userUpdate: (state, action: IactionString) => {
             state.user = action.payload
         },
-        editClientUpdate: (state, action: IactionNumber) => {
+        editClientUpdate: (state, action: IactionString) => {
             state.editId = action.payload
         },
         filterUpdate: (state, action: IactionString) => {
             state.filter = action.payload
+        },
+        setToken: (state, action: IactionString) => {
+            state.token = action.payload
         }
     }
 });
@@ -92,5 +92,6 @@ export const {
     errorLoadingUpdate,
     editClientUpdate,
     loadClientEdit,
-    filterUpdate
+    filterUpdate,
+    setToken
 } = actions; 

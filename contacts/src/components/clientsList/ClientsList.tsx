@@ -5,6 +5,7 @@ import Spinner from "../spinner/Spinner";
 import "./clientsList.css"
 import editWebp from '../../resources/edit.webp'
 import useClientsService from '../../services/ClientsService';
+import { useAuth } from "../../hooks/auth.hooks";
 
 import { Istate } from '../../interfaces'
 
@@ -17,15 +18,24 @@ const ClientsList: React.FC = () => {
     const {getClients, deleteClient} = useClientsService();
     const {clients, user, filter, errorLoading} = useSelector((state: Istate) => state.clients)
     const dispatch = useDispatch()
+    const { logout } = useAuth()
 
     useEffect((): void => {
         if (clients.length === 0) {
             setLoading(true)
-            getClients(user)
+            getClients()
                 .then((res)=> {
-                    if (res.length > 0) {
-                    dispatch(clientsUpdate(res))
+                    if (res.error) {
+                        logout()
+                        return
+                    }
+                    let listContacts: string = JSON.stringify(res).replace(/_id/g, 'id')
+
+                    if ([res].length > 0) {
+                    dispatch(clientsUpdate(JSON.parse(listContacts)))
                     setLoading(false)
+                    } else {
+                        setLoading(false)  
                     }
                 })
                 .catch(() => {
@@ -37,16 +47,21 @@ const ClientsList: React.FC = () => {
 
     const onDeleteHeroe = (id: string) => {
         deleteClient(id)
-            .then(()=> {
-                const newClients = clients.filter((item) => {
-                    return item.id !== id 
-                })
-                dispatch(clientDelete(newClients))
+            .then((res)=> {
+                
+                if (!res.error) {
+                    const newClients = clients.filter((item) => {
+                        return item.id !== id 
+                    })
+                    dispatch(clientDelete(newClients))
+                } else {
+                    logout()
+                }
             })
     } 
 
-    const editClient = (index: number): void => {
-        dispatch(editClientUpdate(index))
+    const editClient = (id: string): void => {
+        dispatch(editClientUpdate(id))
     }
 
     const newClients = clients.filter((item) => {
@@ -77,7 +92,7 @@ const ClientsList: React.FC = () => {
                                         }</div>
                                         <div className="client_email">{elem.email}</div>
                                         <div className="client_btn_edit"
-                                             onClick={() => {editClient(index)}}>
+                                             onClick={() => {editClient(elem.id)}}>
                                             <img src={editWebp} alt="edit"/>
                                         </div>
                                         <div className="client_btn_delete"

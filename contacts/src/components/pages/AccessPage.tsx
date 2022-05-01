@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import ErrorMessage from "./Page404";
 import { useHistory } from 'react-router-dom';
 import Spinner from '../spinner/Spinner';
-
-import useClientsService from '../../services/ClientsService';
+import { useAuth } from '../../hooks/auth.hooks';
 
 import { Istate } from '../../interfaces'
-
-import {userUpdate, accessUpdate, errorLoadingUpdate} from "../clientsList/clientsSlice"
 
 import './accessPage.css';
 
@@ -16,31 +13,42 @@ const AccessPage: React.FC = () => {
   
   const [userName, setUserName] = useState<string>('')
   const [userPassword, setUserPassword] = useState<string>('')
+  const [errorMessage, setErrorMessage] = useState<string>('')
   const [mistake, setMistake] = useState<boolean>(false)
 
   const history = useHistory()
-  const {checkAccess} = useClientsService();
   const {errorLoading, loading} = useSelector((state: Istate) => state.clients)
 
-  const dispatch = useDispatch()
+  const {loginToken, login} = useAuth()
+  const regEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
 
   useEffect(() => {
-    dispatch(errorLoadingUpdate(false))
+    loginToken()
   }, [])
 
   const getAccess = (): void => {
     setMistake(false)
-    checkAccess(userName.toLowerCase(), userPassword)
-      .then((res)=> {     
-        if (res.length > 0) {
-          dispatch(userUpdate(userName.toLowerCase()))
-          dispatch(accessUpdate(true)) 
-          history.push('/main')
-        } 
-        else {
-          setMistake(true)
+    
+    if (userPassword.length > 5 && regEmail.test(userName)) {
+      
+        setErrorMessage('')
+
+        let bodyRequest = {
+          email: userName.toLowerCase(),
+          password: userPassword
         }
-      })
+    
+        const result = login(JSON.stringify(bodyRequest))
+
+        result.then((res) => {
+          if (res.error) {
+            setErrorMessage(res.message)
+          } 
+        }) 
+
+    } else {
+      setMistake(true)
+    } 
   }
 
   const onSubmit = (e: React.MouseEvent<HTMLButtonElement>): void => {
@@ -53,6 +61,7 @@ const AccessPage: React.FC = () => {
     setUserName("")
     setUserPassword("")
     setMistake(false)
+    setErrorMessage('')
   }
   
   const onKeyPress = (e: React.KeyboardEvent) => {
@@ -72,6 +81,10 @@ const AccessPage: React.FC = () => {
     setMistake(false)
   }
 
+  const onRegistr = (): void => {
+    history.push('/registr')
+  }
+
   if (errorLoading) return (<ErrorMessage/>)
 
   let mistakeHTML = <></>
@@ -81,6 +94,21 @@ const AccessPage: React.FC = () => {
 
   let loadingHTML = <></>
   if (loading) loadingHTML = <Spinner/>
+
+  let errorUser = <></>
+  if (userName && !regEmail.test(userName)) {
+    errorUser = <div className="form_registr_error">"Invalid format"</div>
+  }
+
+  let errorPassword = <></>
+  if (userPassword && userPassword.length < 6) {
+    errorPassword = <div className="form_registr_error">"Min of 6 characters"</div>
+  }
+
+  let responseMessage = <></>
+  if (errorMessage !== "") {
+    responseMessage = <div className="response_error">{errorMessage}</div>
+  }
 
   return (
     <div className="access"> 
@@ -92,19 +120,27 @@ const AccessPage: React.FC = () => {
                    required placeholder="User name" 
                    type="text"
                    onChange={onChangeName}/>
+            {errorUser}
             <input name="password"
                    value={userPassword} 
                    required placeholder="Password" 
                    type="password"
                    onChange={onChangePassword}
                    onKeyPress={onKeyPress}/>
+            {errorPassword}
             {mistakeHTML}       
             {loadingHTML}
+            {responseMessage}
             <div className="access_buttons">
                 <button className="access_button_reset"
-                        onClick={onReset}>Reset</button>
+                        onClick={onReset}
+                        disabled={loading}>Reset</button>
+                <button className="access_button_submit registr_button_submit"
+                        onClick={onRegistr}
+                        disabled={loading}>Registr</button>
                 <button className="access_button_submit"
-                        onClick={onSubmit}>OK</button>
+                        onClick={onSubmit}
+                        disabled={loading}>OK</button>
             </div>  
         </form>
     </div>

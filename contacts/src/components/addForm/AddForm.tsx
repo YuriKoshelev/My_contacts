@@ -1,12 +1,20 @@
-import React, {useState} from "react";
-import { useDispatch, useSelector } from 'react-redux';
-import useClientsService from '../../services/ClientsService';
-import {clientsUpdate} from "../clientsList/clientsSlice"
-import Spinner from '../spinner/Spinner';
-import { v4 as uuidv4 } from 'uuid';
+import React, {useState} from 'react'
+import { useDispatch } from 'react-redux'
+import useClientsService from '../../services/ClientsService'
+import {clientsUpdate} from '../clientsList/clientsSlice'
+import { useAuth } from "../../hooks/auth.hooks" 
+import Spinner from '../spinner/Spinner'
 
-import { Istate } from '../../interfaces'
 import "./addForm.css"
+
+interface Ibody {
+    token?: string,
+    id: string,
+    name: string,
+    phone: string,
+    email: string
+    error?: boolean
+}
 
 const AddForm: React.FC = () => {
     
@@ -23,18 +31,16 @@ const AddForm: React.FC = () => {
 
     const {addClient} = useClientsService();
     const dispatch = useDispatch()
-
-    const {user} = useSelector((state: Istate) => state.clients)
+    const { logout } = useAuth()
 
     const onAddClient = (e: React.MouseEvent<HTMLButtonElement>): void => {
         e.preventDefault()
 
-        let newClient = {
-            id: uuidv4(),
-            user: user,
+        let newClient: Ibody = {
+            id: '',
             name: clientName,
-            phone: clientPhone,
-            email: clientEmail
+            phone: clientPhone, 
+            email: clientEmail,
         }
     
         if (clientName.length > 2 && clientPhone.length > 10 
@@ -44,7 +50,14 @@ const AddForm: React.FC = () => {
             setLoading(true)
                                 
             addClient(JSON.stringify(newClient))
-                .then(() => {
+                .then((res) => {
+                    
+                    if (res.error) {
+                        logout()
+                        return
+                    }
+
+                    newClient.id = res.id
                     dispatch(clientsUpdate([newClient]))
                     setLoading(false)
                 })
@@ -81,7 +94,6 @@ const AddForm: React.FC = () => {
         setInputError(false)
     }
 
-    
     let errorName = <></>
     if (activName && clientName.length < 3) {
         errorName = <div className="form_error">"Min of 3 characters"</div>

@@ -1,9 +1,7 @@
 import React from "react"
 import { useSelector } from 'react-redux';
 import "./appHeader.css"
-import { useDispatch } from 'react-redux';
-
-import {userUpdate, accessUpdate, clientsClear} from "../clientsList/clientsSlice"
+import { useAuth } from "../../hooks/auth.hooks";
 
 import { Istate } from '../../interfaces'
 
@@ -11,19 +9,13 @@ import { Istate } from '../../interfaces'
 const AppHeader: React.FC = () => {
     
     const {user} = useSelector((state: Istate) => state.clients)
-    const dispatch = useDispatch()
+    const { logout } = useAuth()
     
-    const onExit = (): void => {
-        dispatch(accessUpdate(false))
-        dispatch(userUpdate(""))
-        dispatch(clientsClear())
-    }
-
     return (
         <div className="promo">
             <div className="user_name">{user}</div>
             <button className="btn"
-                    onClick={onExit}
+                    onClick={logout}
             >Exit</button>
             <h1>My contacts</h1>
         </div>
