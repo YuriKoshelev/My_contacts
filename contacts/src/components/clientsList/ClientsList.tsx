@@ -29,7 +29,7 @@ const ClientsList: React.FC = () => {
                         logout()
                         return
                     }
-                    let listContacts: string = JSON.stringify(res).replace(/_id/g, 'id')
+                    let listContacts: string = JSON.stringify(res) //.replace(/_id/g, 'id')
 
                     if ([res].length > 0) {
                     dispatch(clientsUpdate(JSON.parse(listContacts)))

@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom'
 
 import {userUpdate, accessUpdate, errorLoadingUpdate, setToken, clientsClear} from "../components/clientsList/clientsSlice"
 
-import { Ilogin } from '../interfaces'
+import { IservResponse } from '../interfaces'
 
 export const useAuth = () => {
 
@@ -13,9 +13,11 @@ export const useAuth = () => {
     const history = useHistory()
     const dispatch = useDispatch()
 
-    let result: Ilogin = {
+    let result: IservResponse = {
+        errors: [],
         error: false,
-        message: ''
+        message: '',
+        id: ''
     }
 
     const loginToken = () => {
@@ -60,8 +62,10 @@ export const useAuth = () => {
             } 
             else {
                 result = {
+                    errors: [],
                     error: true,
-                    message: res.message
+                    message: res.message,
+                    id: ''
                 }
             }
             
@@ -77,7 +81,7 @@ export const useAuth = () => {
     }
 
     const registration = async (body: BodyInit) => {
-        await registr(JSON.stringify(body))
+        await registr(body)
         .then((res)=> {     
             result = res
         }).catch((error) => {

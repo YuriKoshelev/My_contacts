@@ -18,10 +18,12 @@ const EditClient: React.FC = () => {
 
     const [inputError, setInputError] = useState<boolean>(false)
 
-    const {clients, editId, user, errorLoading, loading} = useSelector((state: Istate) => state.clients)
+    const {clients, editId, errorLoading, loading} = useSelector((state: Istate) => state.clients)
     const {editClient} = useClientsService();
     const dispatch = useDispatch()
     const {logout} = useAuth()
+
+    const formatEmail: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
 
     useEffect((): void => {
         if (editId !== '') {
@@ -38,8 +40,7 @@ const EditClient: React.FC = () => {
     const onSave = (e: React.MouseEvent<HTMLButtonElement>): void => {
         e.preventDefault()
         
-        if (name.length > 2 && phone.length > 10 
-            && /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email)) {
+        if (name.length > 2 && phone.length > 10 && formatEmail.test(email)) {
             
             setInputError(false)
 
@@ -102,16 +103,16 @@ const EditClient: React.FC = () => {
     }
 
     let errorName = <></>
-    if (name.length < 3) {
+    if (name && name.length < 3) {
         errorName = <div className="form_error">"Min of 3 characters"</div>
     }
     
     let errorPhone = <></>
-    if (phone.length > 12) setPhone(phone.slice(0, 12))
-    if (phone.length < 11) errorPhone = <div className="form_error">"Min of 11 numbers"</div>
+    if (phone && phone.length > 12) setPhone(phone.slice(0, 12))
+    if (phone && phone.length < 11) errorPhone = <div className="form_error">"Min of 11 numbers"</div>
     
     let errorEmail = <></>
-    if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email)) {
+    if (email && !formatEmail.test(email)) {
         errorEmail = <div className="form_error">"Invalid format"</div>
     }
 

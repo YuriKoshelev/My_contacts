@@ -5,13 +5,9 @@ import { useHistory } from 'react-router-dom';
 import { useAuth } from '../../hooks/auth.hooks';
 import Spinner from '../spinner/Spinner';
 
-import useClientsService from '../../services/ClientsService';
-
 import { Istate } from '../../interfaces'
 
-import {userUpdate, accessUpdate, errorLoadingUpdate} from "../clientsList/clientsSlice"
-
-// import './accessPage.css';
+import {errorLoadingUpdate} from "../clientsList/clientsSlice"
 
 const RegistrPage: React.FC = () => {
   
@@ -22,11 +18,11 @@ const RegistrPage: React.FC = () => {
   const [mistake, setMistake] = useState<boolean>(false)
 
   const history = useHistory()
-  //const {registr} = useClientsService();
   const {errorLoading, loading} = useSelector((state: Istate) => state.clients)
 
   const {registration} = useAuth()
   const dispatch = useDispatch()
+  const formatEmail: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
 
   useEffect(() => {
     dispatch(errorLoadingUpdate(false))
@@ -35,7 +31,7 @@ const RegistrPage: React.FC = () => {
   const onRegistr = (): void => {
     setMistake(false)
 
-    if (userPassword.length > 5 && /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(userName)) {
+    if (userPassword.length > 5 && formatEmail.test(userName)) {
 
       let newRegistr = {
         email: userName.toLowerCase(),
@@ -53,17 +49,7 @@ const RegistrPage: React.FC = () => {
         } else {
           setMessageCreate(res.message)
         }
-      })
-      
-      // registr(JSON.stringify(newRegistr))
-      //   .then((res)=> {     
-
-      //     if (res.error)  setErrorMessage(res.message)
-      //     else  setMessageCreate(res.message)
-
-      //   }).catch((error) => {
-      //     console.log(error)
-      //   })  
+      }) 
 
     }
 
@@ -100,7 +86,7 @@ const RegistrPage: React.FC = () => {
   if (loading) loadingHTML = <Spinner/>
 
   let errorUser = <></>
-  if (userName && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(userName)) {
+  if (userName && !formatEmail.test(userName)) {
     errorUser = <div className="form_registr_error">"Invalid format"</div>
   }
 

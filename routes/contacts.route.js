@@ -8,7 +8,18 @@ const router = Router();
 router.get('/', auth, async (req, res) => {
     try {
         const contacts = await Contacts.find({ user: req.user.userId });
-        res.json(contacts);
+        
+        const contactsResult = [];
+
+        contacts.forEach((item) => {
+            contactsResult.push({
+                id: item._id,
+                name: item.name,
+                phone: item.phone,
+                email: item.email
+            });
+        });
+        res.json(contactsResult);
     } catch (e) {
         res.status(500).json({ 
             error: true,

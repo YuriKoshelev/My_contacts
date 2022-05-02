@@ -22,16 +22,14 @@ const AddForm: React.FC = () => {
     const [clientPhone, setClientPhone] = useState<string>('')
     const [clientEmail, setClientEmail] = useState<string>('')
 
-    const [activName, setActivName] = useState<boolean>(false)
-    const [activPhone, setActivPhone] = useState<boolean>(false)
-    const [activEmail, setActivEmail] = useState<boolean>(false)
-
     const [inputError, setInputError] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(false)
 
     const {addClient} = useClientsService();
     const dispatch = useDispatch()
     const { logout } = useAuth()
+
+    const formatEmail: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
 
     const onAddClient = (e: React.MouseEvent<HTMLButtonElement>): void => {
         e.preventDefault()
@@ -43,8 +41,7 @@ const AddForm: React.FC = () => {
             email: clientEmail,
         }
     
-        if (clientName.length > 2 && clientPhone.length > 10 
-                                  && /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(clientEmail)) {
+        if (clientName.length > 2 && clientPhone.length > 10 && formatEmail.test(clientEmail)) {
             
             setInputError(false)
             setLoading(true)
@@ -65,9 +62,6 @@ const AddForm: React.FC = () => {
                     setClientName('')
                     setClientPhone('')
                     setClientEmail('')
-                    setActivName(false)
-                    setActivPhone(false)
-                    setActivEmail(false)
                 })
         } else {
             setInputError(true)
@@ -78,39 +72,33 @@ const AddForm: React.FC = () => {
 
     const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {  
         setClientName(e.target.value)
-        setActivName(true)
         setInputError(false)
     }
 
     const onChangePhone = (e: React.ChangeEvent<HTMLInputElement>): void => {
         setClientPhone(e.target.value)
         setInputError(false)
-        setActivPhone(true) 
     }
 
     const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>): void => {
         setClientEmail(e.target.value)
-        setActivEmail(true)
         setInputError(false)
     }
 
     let errorName = <></>
-    if (activName && clientName.length < 3) {
+    if (clientName && clientName.length < 3) {
         errorName = <div className="form_error">"Min of 3 characters"</div>
     }
     
     let errorPhone = <></>
-    if (activPhone) {
-        if (clientPhone.length > 12) setClientPhone(clientPhone.slice(0, 12))
-        if (clientPhone.length < 11) errorPhone = <div className="form_error">"Min of 11 numbers"</div>
-    }
+    if (clientPhone && clientPhone.length > 12) setClientPhone(clientPhone.slice(0, 12))
+    if (clientPhone && clientPhone.length < 11) errorPhone = <div className="form_error">"Min of 11 numbers"</div>
 
     let errorEmail = <></>
-    if (activEmail) {
-        if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(clientEmail)) {
-            errorEmail = <div className="form_error">"Invalid format"</div>
-        }
+    if (clientEmail && !formatEmail.test(clientEmail)) {
+        errorEmail = <div className="form_error">"Invalid format"</div>
     }
+    
 
     let inputErrorHTML = <></>
     if (inputError) inputErrorHTML = <div className="form_error">"Incorrect input"</div>

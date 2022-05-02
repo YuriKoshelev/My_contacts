@@ -20,7 +20,7 @@ const AccessPage: React.FC = () => {
   const {errorLoading, loading} = useSelector((state: Istate) => state.clients)
 
   const {loginToken, login} = useAuth()
-  const regEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
+  const formatEmail: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
 
   useEffect(() => {
     loginToken()
@@ -29,7 +29,7 @@ const AccessPage: React.FC = () => {
   const getAccess = (): void => {
     setMistake(false)
     
-    if (userPassword.length > 5 && regEmail.test(userName)) {
+    if (userPassword.length > 5 && formatEmail.test(userName)) {
       
         setErrorMessage('')
 
@@ -96,7 +96,7 @@ const AccessPage: React.FC = () => {
   if (loading) loadingHTML = <Spinner/>
 
   let errorUser = <></>
-  if (userName && !regEmail.test(userName)) {
+  if (userName && !formatEmail.test(userName)) {
     errorUser = <div className="form_registr_error">"Invalid format"</div>
   }
 

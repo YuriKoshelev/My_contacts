@@ -27,13 +27,9 @@ export interface Iaccess {
     user: string
 }
 
-export interface Iregistr {
+export interface IservResponse {
     errors: Array<string>,
     error: boolean,
-    message: string
-}
-
-export interface Ilogin {
-    error: boolean,
-    message: string
+    message: string,
+    id: string
 }
