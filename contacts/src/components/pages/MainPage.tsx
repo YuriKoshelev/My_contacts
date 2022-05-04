@@ -1,11 +1,11 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import React from 'react'
+import { useSelector } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 
-import AppHeader from '../appHeader/AppHeader';
-import Search from '../search/search';
-import ClientsList from '../clientsList/ClientsList';
-import AddForm from '../addForm/AddForm';
+import AppHeader from '../appHeader/AppHeader'
+import Search from '../search/search'
+import ClientsList from '../clientsList/ClientsList'
+import AddForm from '../addForm/AddForm'
 import EditClient from '../editClient/EditClient'
 
 import { Istate } from '../../interfaces'

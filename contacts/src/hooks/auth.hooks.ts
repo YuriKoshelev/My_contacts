@@ -1,8 +1,14 @@
-import { useDispatch } from "react-redux"
-import useClientsService from '../services/ClientsService'
+import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
+import useClientsService from '../services/ClientsService'
 
-import {userUpdate, accessUpdate, errorLoadingUpdate, setToken, clientsClear} from "../components/clientsList/clientsSlice"
+import {userUpdate, 
+        accessUpdate, 
+        errorLoadingUpdate, 
+        setToken, 
+        clientsClear,
+        filterUpdate,
+        editClientUpdate} from '../components/clientsList/clientsSlice'
 
 import { IservResponse } from '../interfaces'
 
@@ -77,16 +83,17 @@ export const useAuth = () => {
         localStorage.removeItem('userData');
         dispatch(accessUpdate(false))
         dispatch(userUpdate(""))
-        dispatch(clientsClear())     
+        dispatch(clientsClear())
+        dispatch(filterUpdate(""))
+        dispatch(editClientUpdate(""))     
     }
 
     const registration = async (body: BodyInit) => {
         await registr(body)
         .then((res)=> {     
             result = res
-        }).catch((error) => {
+        }).catch(() => {
             result.error = true
-            console.log(error)
         })
         return result
     }

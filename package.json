@@ -7,6 +7,8 @@
     "start": "node app.js",
     "server": "nodemon app.js",
     "contacts": "npm run start --prefix contacts",
+    "contacts:install": "npm install --prefix contacts",
+    "contacts:build": "npm run build --prefix contacts",
     "dev": "concurrently \"npm run server\" \"npm run contacts\""
   },
   "keywords": [

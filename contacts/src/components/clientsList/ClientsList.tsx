@@ -1,22 +1,23 @@
-import React, {useEffect, useState} from "react";
-import { useDispatch, useSelector } from 'react-redux';
-import ErrorMessage from "../pages/Page404";
-import Spinner from "../spinner/Spinner";
-import "./clientsList.css"
-import editWebp from '../../resources/edit.webp'
-import useClientsService from '../../services/ClientsService';
-import { useAuth } from "../../hooks/auth.hooks";
+import React, {useEffect, useState} from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useAuth } from '../../hooks/auth.hooks'
+import useClientsService from '../../services/ClientsService'
+import ErrorMessage from '../pages/Page404'
+import Spinner from '../spinner/Spinner'
 
 import { Istate } from '../../interfaces'
 
 import {clientsUpdate, clientDelete, editClientUpdate, errorLoadingUpdate} from "../clientsList/clientsSlice"
+
+import editWebp from '../../resources/edit.webp'
+import './clientsList.css'
 
 const ClientsList: React.FC = () => {
 
     const [loading, setLoading] = useState<boolean>(false)
 
     const {getClients, deleteClient} = useClientsService();
-    const {clients, user, filter, errorLoading} = useSelector((state: Istate) => state.clients)
+    const {clients, filter, errorLoading} = useSelector((state: Istate) => state.clients)
     const dispatch = useDispatch()
     const { logout } = useAuth()
 

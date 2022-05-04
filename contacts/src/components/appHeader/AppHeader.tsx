@@ -1,7 +1,7 @@
 import React from "react"
 import { useSelector } from 'react-redux';
-import "./appHeader.css"
 import { useAuth } from "../../hooks/auth.hooks";
+import "./appHeader.css"
 
 import { Istate } from '../../interfaces'
 

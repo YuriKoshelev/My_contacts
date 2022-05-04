@@ -1,6 +1,11 @@
 import {useHttp} from '../hooks/http.hooks'
 import { Iaccess, Iclients, IservResponse } from '../interfaces'
- 
+
+interface Iheaders {
+    "Content-Type": string,
+    token?: string
+}
+
 const useClientsService = () => {
     const request = useHttp()
 
@@ -8,23 +13,19 @@ const useClientsService = () => {
     
     const getHeaders= () => {
         const dataStorage = localStorage.getItem('userData')
-    
+        const headers: Iheaders = {
+            'Content-Type': 'application/json',
+        }
+
         if (dataStorage) {
             const data = JSON.parse(dataStorage)
 
             if (data.token) {
-                const headers = {
-                    'Content-Type': 'application/json',
-                    token: data.token
-                }
-                return headers
-            } else {
-                const headers = {
-                    'Content-Type': 'application/json'
-                }
-                return headers
-            }
-        }
+                headers.token = data.token
+            }   
+        } 
+
+        return headers
         
     }
 

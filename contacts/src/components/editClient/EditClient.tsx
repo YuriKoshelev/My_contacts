@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react"
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import useClientsService from '../../services/ClientsService'
-import { useAuth } from "../../hooks/auth.hooks";
-import ErrorMessage from "../pages/Page404";
-import Spinner from "../spinner/Spinner";
+import { useAuth } from '../../hooks/auth.hooks'
+import ErrorMessage from '../pages/Page404'
+import Spinner from '../spinner/Spinner'
 import { Istate, Iclients } from '../../interfaces'
 
-import {loadClientEdit, editClientUpdate} from "../clientsList/clientsSlice"
+import {loadClientEdit, editClientUpdate} from '../clientsList/clientsSlice'
 
-import "./editClient.css"
+import './editClient.css'
 
 const EditClient: React.FC = () => {
     

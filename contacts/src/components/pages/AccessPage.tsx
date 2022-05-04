@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import ErrorMessage from "./Page404";
-import { useHistory } from 'react-router-dom';
-import Spinner from '../spinner/Spinner';
-import { useAuth } from '../../hooks/auth.hooks';
+import React, { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import ErrorMessage from './Page404'
+import { useHistory } from 'react-router-dom'
+import Spinner from '../spinner/Spinner'
+import { useAuth } from '../../hooks/auth.hooks'
 
 import { Istate } from '../../interfaces'
 
-import './accessPage.css';
+import './accessPage.css'
 
 const AccessPage: React.FC = () => {
   

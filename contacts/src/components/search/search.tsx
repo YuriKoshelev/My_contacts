@@ -1,9 +1,9 @@
-import React from "react";
-import { useDispatch } from 'react-redux';
+import React from 'react'
+import { useDispatch } from 'react-redux'
 
-import {filterUpdate} from "../clientsList/clientsSlice"
+import {filterUpdate} from '../clientsList/clientsSlice'
 
-import "./search.css"
+import './search.css'
 
 const Search: React.FunctionComponent = () => {
     

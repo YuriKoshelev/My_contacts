@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import ErrorMessage from "./Page404";
-import { useHistory } from 'react-router-dom';
-import { useAuth } from '../../hooks/auth.hooks';
-import Spinner from '../spinner/Spinner';
+import React, { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useHistory } from 'react-router-dom'
+import { useAuth } from '../../hooks/auth.hooks'
+import Spinner from '../spinner/Spinner'
+import ErrorMessage from './Page404'
 
 import { Istate } from '../../interfaces'
 
-import {errorLoadingUpdate} from "../clientsList/clientsSlice"
+import {errorLoadingUpdate} from '../clientsList/clientsSlice'
 
 const RegistrPage: React.FC = () => {
   
