@@ -161,7 +161,8 @@ const EditClient: React.FC = () => {
                         <button className="edit_button_cancel"
                                 onClick={onCancel}>Cancel</button>
                         <button className="edit_button_submit"
-                                onClick={onSave}>Save</button>
+                                onClick={onSave}
+                                disabled={loading}>Save</button>
                     </div>
                 </form>
             </div>

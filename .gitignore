@@ -3,6 +3,7 @@
 # dependencies
 /node_modules
 /contacts/node_modules
+/contacts/src/components/validateForm
 /.pnp
 .pnp.js
 

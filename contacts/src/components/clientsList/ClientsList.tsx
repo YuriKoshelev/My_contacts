@@ -35,14 +35,14 @@ const ClientsList: React.FC = () => {
                     if ([res].length > 0) {
                     dispatch(clientsUpdate(JSON.parse(listContacts)))
                     setLoading(false)
-                    } else {
-                        setLoading(false)  
                     }
                 })
                 .catch(() => {
                     dispatch(errorLoadingUpdate(true))
                  }
-                )
+                ).finally(() => {
+                    setLoading(false)
+                })
         }
     }, [])
 
@@ -81,7 +81,7 @@ const ClientsList: React.FC = () => {
             <ul>
                 <li>
                     { 
-                    newClients.map((elem, index) => {
+                    newClients.map((elem) => {
                         return(
                             <li key={elem.id}>
                                 <div className="client_wrapper faded">

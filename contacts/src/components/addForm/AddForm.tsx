@@ -18,9 +18,9 @@ interface Ibody {
 
 const AddForm: React.FC = () => {
     
-    const [clientName, setClientName] = useState<string>('')
-    const [clientPhone, setClientPhone] = useState<string>('')
-    const [clientEmail, setClientEmail] = useState<string>('')
+    const [name, setName] = useState<string>('')
+    const [phone, setPhone] = useState<string>('')
+    const [email, setEmail] = useState<string>('')
 
     const [inputError, setInputError] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(false)
@@ -36,12 +36,12 @@ const AddForm: React.FC = () => {
 
         let newClient: Ibody = {
             id: '',
-            name: clientName,
-            phone: clientPhone, 
-            email: clientEmail,
+            name: name,
+            phone: phone, 
+            email: email,
         }
     
-        if (clientName.length > 2 && clientPhone.length > 10 && formatEmail.test(clientEmail)) {
+        if (name.length > 2 && phone.length > 10 && formatEmail.test(email)) {
             
             setInputError(false)
             setLoading(true)
@@ -59,9 +59,9 @@ const AddForm: React.FC = () => {
                     setLoading(false)
                 })
                 .then(() => {
-                    setClientName('')
-                    setClientPhone('')
-                    setClientEmail('')
+                    setName('')
+                    setPhone('')
+                    setEmail('')
                 })
         } else {
             setInputError(true)
@@ -71,31 +71,31 @@ const AddForm: React.FC = () => {
 
 
     const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {  
-        setClientName(e.target.value)
+        setName(e.target.value)
         setInputError(false)
     }
 
     const onChangePhone = (e: React.ChangeEvent<HTMLInputElement>): void => {
-        setClientPhone(e.target.value)
+        setPhone(e.target.value)
         setInputError(false)
     }
 
     const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>): void => {
-        setClientEmail(e.target.value)
+        setEmail(e.target.value)
         setInputError(false)
     }
 
     let errorName = <></>
-    if (clientName && clientName.length < 3) {
+    if (name && name.length < 3) {
         errorName = <div className="form_error">"Min of 3 characters"</div>
     }
     
     let errorPhone = <></>
-    if (clientPhone && clientPhone.length > 12) setClientPhone(clientPhone.slice(0, 12))
-    if (clientPhone && clientPhone.length < 11) errorPhone = <div className="form_error">"Min of 11 numbers"</div>
+    if (phone && phone.length > 12) setPhone(phone.slice(0, 12))
+    if (phone && phone.length < 11) errorPhone = <div className="form_error">"Min of 11 numbers"</div>
 
     let errorEmail = <></>
-    if (clientEmail && !formatEmail.test(clientEmail)) {
+    if (email && !formatEmail.test(email)) {
         errorEmail = <div className="form_error">"Invalid format"</div>
     }
     
@@ -111,21 +111,21 @@ const AddForm: React.FC = () => {
             <form className="form_add" action="#">                
                 <div className="form_headline">Add a contact</div>
                 <input name="name" 
-                       value={clientName}
+                       value={name}
                        required placeholder="Contact's name" 
                        type="text"
                        onChange={onChangeName}
                        />
                 {errorName}
                 <input name="phone" 
-                       value={clientPhone}
+                       value={phone}
                        required placeholder="Phone number" 
                        type="number"
                        onChange={onChangePhone}
                        />
                 {errorPhone}       
                 <input name="email" 
-                       value={clientEmail}
+                       value={email}
                        required placeholder="E-mail" 
                        type="email"
                        onChange={onChangeEmail}
@@ -134,7 +134,8 @@ const AddForm: React.FC = () => {
                 {inputErrorHTML}
                 {loadingHTML} 
                 <button className="button_submit"
-                        onClick={onAddClient}>Add</button>
+                        onClick={onAddClient}
+                        disabled={loading}>Add</button>
             </form>
         </div>
     )
